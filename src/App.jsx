@@ -38,6 +38,9 @@ function App() {
             <input
               type="text"
               className="p-3 w-80 border-1 border-[#33A0FF] rounded-[4px] bg-gray-800 h-20 outline-0 text-white"
+              value={
+                "A radiant crystal city, huming with cosmic energy, painted in style digital impressionism...."
+              }
             />
             <button className="bg-[#33A0FF] py-2 px-20 rounded-4xl text-white font-semibold cursor-pointer hover:bg-[#1E90FF] ">
               Ignite
