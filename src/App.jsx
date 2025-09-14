@@ -31,13 +31,15 @@ function App() {
       )}
       <main className="flex bg-[url(./assets/lumen-background.png)] h-[calc(100vh-64px)] items-center justify-center ">
         {connected ? (
-          <div className="flex flex-col gap-4">
-            <h2 className="text-3xl text-white">Ignite a New Lumen</h2>
+          <div className="flex flex-col gap-4 items-center">
+            <h2 className="text-3xl text-white font-bold">
+              Ignite a New Lumen
+            </h2>
             <input
               type="text"
-              className="p-3 w-full border-1 border-[#33A0FF] rounded-[4px] bg-gray-800 h-20 outline-0 text-white"
+              className="p-3 w-80 border-1 border-[#33A0FF] rounded-[4px] bg-gray-800 h-20 outline-0 text-white"
             />
-            <button className="bg-[#33A0FF] py-3 px-10 rounded-4xl text-white font-semibold cursor-pointer hover:bg-[#1E90FF] ">
+            <button className="bg-[#33A0FF] py-2 px-20 rounded-4xl text-white font-semibold cursor-pointer hover:bg-[#1E90FF] ">
               Ignite
             </button>
           </div>
