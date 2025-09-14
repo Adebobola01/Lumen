@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import ConnectWallet from "./components/Wallet.jsx";
 import lumenLogo from "./assets/lumen.svg";
@@ -7,6 +7,30 @@ import Script from "./components/script.jsx";
 function App() {
   const [connected, setConnected] = useState(false);
   const [address, setAddress] = useState("");
+
+  const checkConnection = async () => {
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({
+          method: "eth_accounts",
+        });
+        if (accounts.length > 0) {
+          setConnected(true);
+          setAddress(accounts[0]);
+        } else {
+          setConnected(false);
+          setAddress("");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.log("error: metamask is not installed!");
+    }
+  };
+  useEffect(() => {
+    checkConnection();
+  }, []);
   return (
     <div className="w-[100vw] h-[100vh] ">
       {connected && (
@@ -20,7 +44,7 @@ function App() {
           </div>
           <div className="rounded-md border-1 border-[#33A0FF] cursor-pointer hover:bg-gray-600 flex items-center justify-between gap-3 py-1 px-3">
             <span className="bg-[#05df72] !h-3 !w-3 rounded-full"></span>
-            <p className="text-white font-mono text-sm bg-gray-700">
+            <p className="text-white font-mono text-sm">
               Connected:{" "}
               {`${address.substring(0, 6)}...${address.substring(
                 address.length - 4
@@ -29,16 +53,20 @@ function App() {
           </div>
         </header>
       )}
-      <main className="flex bg-[url(./assets/lumen-background.png)] h-[calc(100vh-64px)] items-center justify-center ">
+      <main
+        className={`flex bg-[url(./assets/lumen-background.png)] ${
+          connected ? "h-[calc(100vh-64px)]" : "h-[100dvh]"
+        } items-center justify-center `}
+      >
         {connected ? (
-          <div className="flex flex-col gap-4 items-center">
-            <h2 className="text-3xl text-white font-bold">
+          <div className="flex flex-col gap-8 items-center">
+            <h2 className="text-4xl text-white font-bold">
               Ignite a New Lumen
             </h2>
             <input
               type="text"
-              className="p-3 w-80 border-1 border-[#33A0FF] rounded-[4px] bg-gray-800 h-20 outline-0 text-white"
-              value={
+              className="px-3 w-80 border-1 border-[#33A0FF] rounded-[8px] bg-[#1e2939a8] h-18 outline-0 text-white"
+              placeholder={
                 "A radiant crystal city, huming with cosmic energy, painted in style digital impressionism...."
               }
             />
