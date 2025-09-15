@@ -1,5 +1,6 @@
 import { useAppKit } from "@reown/appkit/react";
 import { ethers } from "ethers";
+import { useEffect, useState } from "react";
 // import { useWalletConnect } from "./WalletConnect.jsx";
 let provider;
 let signer;
@@ -37,8 +38,10 @@ async function requestSwitch() {
 }
 
 const ConnectWallet = ({ setConnected, setAddress }) => {
+  const [connecting, setConnecting] = useState(false);
   const connect = async () => {
     if (window.ethereum) {
+      setConnecting(true);
       provider = new ethers.BrowserProvider(window.ethereum);
       signer = await provider.getSigner();
       const address = await signer.getAddress();
@@ -48,6 +51,7 @@ const ConnectWallet = ({ setConnected, setAddress }) => {
       } catch (error) {
         console.log("Error switching network:", error);
       }
+      setConnecting(false);
       setConnected(true);
       setAddress(address);
       // Now you can use this provider to interact with the blockchain
@@ -56,13 +60,26 @@ const ConnectWallet = ({ setConnected, setAddress }) => {
     }
   };
 
+  const disconnectWallet = () => {
+    setConnected(false);
+    setAddress("");
+    console.log("disconnected");
+  };
+
+  // useEffect(() => {
+  //   if (provider) {
+  //     provider?.on("disconnect", disconnectWallet);
+  //   }
+  // }, [provider]);
+
   return (
     <div>
       <button
         className="bg-[#33A0FF] py-3 px-10 rounded-4xl text-white font-semibold cursor-pointer hover:bg-[#1E90FF] "
         onClick={connect}
+        disabled={connecting}
       >
-        Connect Wallet
+        {connecting ? "Connecting..." : "Connect Wallet"}
       </button>
       {/* <button onClick={() => open({ view: "Networks" })}>
         Open Network Modal
